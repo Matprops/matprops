@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math
 import warnings
 
-def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="white", title=None, title_loc="tl", facecolor="black", bgcolor="#707070", description=None):
+def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="blue", title=None, title_loc="tl", facecolor="blue", bgcolor="#707070", description=None):
     """
     Square area proportional chart
     This function is used to create and customize almost everything in basic square area proportional chart
@@ -71,8 +71,8 @@ def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="whi
     fig = plt.figure(figsize=(18, 2 * rows))
     for index, row in dataset.iterrows():
         ax = fig.add_subplot(rows, cols, index + 1)
-        ax.axvspan(0, 1, ymax=1, fc=bgcolor, alpha=0.2)
-        ax.axvspan(0, row[col], ymax=row[col], fc=facecolor)
+        ax.axvspan(0, 1, ymax=1, fc=bgcolor, alpha=0.1)
+        ax.axvspan(0, row[col], ymin=0.01 , ymax=row[col], fc=matplotlib.colors.to_hex(facecolor)+"66", ec=facecolor)
         if labels:
             if label_loc == "inc":
                 label_locations_reset = [row[col] / 2, row[col] / 2, "center", "center"]
@@ -91,7 +91,7 @@ def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="whi
             if label_loc == "outtr":
                 label_locations_reset = [row[col] + 0.05, row[col] - 0.1, "left", "bottom"]
             # label_locations_reset = __get_label_location(row[col], label_loc)
-            ax.text(label_locations_reset[0], label_locations_reset[1], str(row[col] * 100) + "%", c=labelcolor,
+            ax.text(label_locations_reset[0], label_locations_reset[1], str(row[col] * 100) + "%", c=matplotlib.colors.to_hex(labelcolor),
                     fontsize=8, ha=label_locations_reset[2], va=label_locations_reset[3])
         if description is None:
             if title is not None:
@@ -154,5 +154,7 @@ def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="whi
         ax.set_yticks([])
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
+    if rows > 1:
+        fig.tight_layout()
     plt.show();
 
