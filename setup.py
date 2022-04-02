@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='matprops',
-    version='1.0.1',
+    version='1.0.2',
     description='Python library written on top of matplotlib library for customizable proportional charts',
     py_modules=['matprops'],
     package_dir={'': 'src'},
