@@ -1,19 +1,23 @@
-from setuptools import setup
+from setuptools import setup, find_packages
+import pathlib
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+here = pathlib.Path(__file__).parent.resolve()
+long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name='matprops',
-    version='1.0.2',
-    description='Python library written on top of matplotlib library for customizable proportional charts',
-    py_modules=['matprops'],
+    version='1.0.3',
+    packages=find_packages(where="src"),
     package_dir={'': 'src'},
     classifiers=[
         "Programming Language :: Python :: 3",
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development :: Build Tools",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
+    keywords="matplotlib, visualization, proportional charts",
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=[
@@ -26,7 +30,8 @@ setup(
             "pytest >= 6.2.5"
         ]
     },
-    url="https://github.com/sharajmohamars/matprops",
-    author="Mohammed Shammeer",
-    author_email="sharajmohamars@gmail.com"
+    url='https://github.com/shammeer-s/matprops',
+    author='Mohammed Shammeer',
+    author_email='mohammedshammeer.s@gmail.com',
+    description='Python library written on top of matplotlib library for customizable proportional charts'
 )
