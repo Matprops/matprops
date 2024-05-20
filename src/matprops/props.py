@@ -1,8 +1,8 @@
 import matplotlib
 
-from resources.configs.props import *
-from resources.utils.props import *
-from resources.utils.figure import *
+from ...resources.configs.props import *
+from ...resources.utils.props import *
+from ...resources.utils.figure import *
 
 
 def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="blue", title=None, title_loc="tl",
