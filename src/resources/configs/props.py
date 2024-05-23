@@ -1,4 +1,4 @@
-from ...resources.configs import layout
+from resources.configs import layout
 import math
 import warnings
 
@@ -17,7 +17,7 @@ class PropConfig:
 
         self.title_layout = None
         self.description_layout = None
-        self.label_layout = None
+        self.label_layout = {}
 
         self.set_title_layout()
         self.set_description_layout()
@@ -74,19 +74,20 @@ class PropConfig:
 
     def get_label_layout(self, row):
         if self.labels is not None and self.label_col is not None:
-            if self.label_loc == "inc":
-                self.label_layout = [row[self.label_col] / 2, row[self.label_col] / 2, "center", "center"]
-            if self.label_loc == "inbl":
-                self.label_layout = [0, 0, "left", "bottom"]
-            if self.label_loc == "inbr":
-                self.label_layout = [row[self.label_col], 0, "right", "bottom"]
-            if self.label_loc == "intl":
-                self.label_layout = [0 + 0.02, row[self.label_col] - 0.02, "left", "top"]
-            if self.label_loc == "intr":
-                self.label_layout = [row[self.label_col] - 0.02, row[self.label_col] - 0.02, "right", "top"]
-            if self.label_loc == "outc":
-                self.label_layout = [row[self.label_col] + 0.05, row[self.label_col] + 0.05, "left", "top"]
-            if self.label_loc == "outtl":
-                self.label_layout = [row[self.label_col] - 0.05, row[self.label_col] + 0.05, "right", "bottom"]
-            if self.label_loc == "outtr":
-                self.label_layout = [row[self.label_col] + 0.05, row[self.label_col] - 0.1, "left", "bottom"]
+            for col in self.label_col:
+                if self.label_loc == "inc":
+                    self.label_layout[col] = [row[col] / 2, row[col] / 2, "center", "center"]
+                if self.label_loc == "inbl":
+                    self.label_layout[col] = [0, 0, "left", "bottom"]
+                if self.label_loc == "inbr":
+                    self.label_layout[col] = [row[col], 0, "right", "bottom"]
+                if self.label_loc == "intl":
+                    self.label_layout[col] = [0 + 0.02, row[col] - 0.02, "left", "top"]
+                if self.label_loc == "intr":
+                    self.label_layout[col] = [row[col] - 0.02, row[col] - 0.02, "right", "top"]
+                if self.label_loc == "outc":
+                    self.label_layout[col] = [row[col] + 0.05, row[col] + 0.05, "left", "top"]
+                if self.label_loc == "outtl":
+                    self.label_layout[col] = [row[col] - 0.05, row[col] + 0.05, "right", "bottom"]
+                if self.label_loc == "outtr":
+                    self.label_layout[col] = [row[col] + 0.05, row[col] - 0.1, "left", "bottom"]

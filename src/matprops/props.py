@@ -1,12 +1,11 @@
 import matplotlib
 
-from ..resources.configs.props import *
-from ..resources.utils.props import *
-from ..resources.utils.figure import *
+from resources.configs.props import *
+from resources.utils.props import *
+from resources.utils.figure import *
 
 
-def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="blue", title=None, title_loc="tl",
-             facecolor="blue", bgcolor="#707070", description=None):
+def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None, title_loc="tl", bgcolor="#707070", description=None):
     """
     Square area proportional chart
     This function is used to create and customize almost everything in basic square area proportional chart
@@ -64,16 +63,17 @@ def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="blu
     prop = PropInit(dataset, cols)
     fig = prop.initialize_figure()
 
+    if isinstance(col_name, str):
+        col_name = [col_name]
+
     if fig:
         # Proportional chart configurations
-        pConfig = PropConfig(dataset, title, title_loc, labels, label_loc, col, description)
+        pConfig = PropConfig(dataset, title, title_loc, labels, label_loc, col_name, description)
 
         for index, row in dataset.iterrows():
             ax = fig.add_subplot(prop.max_rows, cols, index + 1)
 
             ax.axvspan(0, 1, ymax=1, fc=bgcolor, alpha=0.1)
-            ax.axvspan(0, row[col], ymin=0.01, ymax=row[col], fc=matplotlib.colors.to_hex(facecolor) + "4D",
-                       ec=facecolor)
 
             if pConfig.title is not None:
                 ax.text(pConfig.title_layout[0],
@@ -99,15 +99,22 @@ def AreaProp(dataset, col, cols=8, labels=True, label_loc="inc", labelcolor="blu
                                                temp_description_layout[1] - 0.1,
                                                temp_description_layout[2]]
 
-            if pConfig.labels:
-                pConfig.get_label_layout(row)
-                ax.text(pConfig.label_layout[0],
-                        pConfig.label_layout[1],
-                        str(row[col] * 100) + "%",
-                        c=matplotlib.colors.to_hex(labelcolor),
-                        fontsize=7,
-                        ha=pConfig.label_layout[2],
-                        va=pConfig.label_layout[3])
+            if isinstance(col_name, list):
+                if len(col_name) > 3:
+                    warnings.warn("Warning: Using more than three columns for proportional charts is not recommended due to potential overcrowding. To ensure clarity and readability, we will only display three columns. If you require specific columns, please update the 'col_name' attribute with three specific column names.")
+                for col, colour in zip(col_name, ["blue", "green", "red"]):
+                    ax.axvspan(0, row[col], ymin=0.01, ymax=row[col], fc=matplotlib.colors.to_hex(colour) + "4D",
+                               ec=colour)
+                    if pConfig.labels:
+                        pConfig.get_label_layout(row)
+                        ax.text(pConfig.label_layout[col][0],
+                                pConfig.label_layout[col][1],
+                                str(row[col] * 100) + "%",
+                                c=matplotlib.colors.to_hex(colour),
+                                fontsize=7,
+                                ha=pConfig.label_layout[col][2],
+                                va=pConfig.label_layout[col][3])
+
             set_axis(ax)
 
         if prop.max_rows > 1:
