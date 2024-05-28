@@ -15,7 +15,7 @@ def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
     :parameter dataset: (pandas dataframe)
                     May hold a larger number of columns
                     including title, description and proportions
-    :parameter col: (str)
+    :parameter col_name: (str)
                 Column name for which the proportions to be visualized
     :param cols: (int, default=8)
                  Number of proportion square columns for a single row
@@ -101,7 +101,10 @@ def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
 
             if isinstance(col_name, list):
                 if len(col_name) > 3:
-                    warnings.warn("Warning: Using more than three columns for proportional charts is not recommended due to potential overcrowding. To ensure clarity and readability, we will only display three columns. If you require specific columns, please update the 'col_name' attribute with three specific column names.")
+                    warnings.warn("Warning: Using more than three columns for proportional charts is not recommended "
+                                  "due to potential overcrowding. To ensure clarity and readability, we will only "
+                                  "display three columns. If you require specific columns, please update the "
+                                  "'col_name' attribute with three specific column names.")
                 for col, colour in zip(col_name, ["blue", "green", "red"]):
                     ax.axvspan(0, row[col], ymin=0.01, ymax=row[col], fc=matplotlib.colors.to_hex(colour) + "4D",
                                ec=colour)
