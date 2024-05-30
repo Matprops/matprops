@@ -8,9 +8,9 @@
 # dataset = pd.DataFrame(
 #     {
 #         'Country': ['France', 'Germany', 'United Arab Emirates'],
-#         'Men (%)': [60, 80, 30],
-#         'Women (%)': [50, 30, 80],
-#         'Other (%)': [20, 60, 100],
+#         'Men (%)': [62, 86, 33],
+#         'Women (%)': [55, 31, 12],
+#         'Other (%)': [25, 11, 32],
 #         'Capital': ['Paris', 'Berlin', 'Mecca']
 #     }
 # )
@@ -21,4 +21,4 @@
 # dataset["Women (%)"] = dataset["Women (%)"]/100
 # dataset["Other (%)"] = dataset["Other (%)"]/100
 #
-# props.AreaProp(dataset, ["Men (%)","Women (%)","Other (%)"], labels=True, title="Country", description="Capital")
+# props.GridProp(dataset, ["Men (%)","Women (%)","Other (%)"], labels=True, title="Country", description="Capital")

@@ -1,11 +1,13 @@
 import matplotlib
+import matplotlib.pyplot as plt
 
 from resources.configs.props import *
 from resources.utils.props import *
 from resources.utils.figure import *
 
 
-def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None, title_loc="tl", bgcolor="#707070", description=None):
+def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None, title_loc="tl", bgcolor="#707070",
+             description=None):
     """
     Square area proportional chart
     This function is used to create and customize almost everything in basic square area proportional chart
@@ -120,6 +122,110 @@ def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
 
             set_axis(ax)
 
+        if prop.max_rows > 1:
+            fig.tight_layout()
+        plt.show();
+    else:
+        raise Exception("Exception occurred")
+
+
+def GridProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None, title_loc="tl", bgcolor="#707070",
+             description=None):
+    # Define Grid
+    num_squares = 10
+
+    square_size = 0.1
+    space_size = 0.03
+
+    # Proportional chart initialize
+    prop = PropInit(dataset, cols)
+    fig = prop.initialize_figure()
+
+    if isinstance(col_name, str):
+        col_name = [col_name]
+
+    c_dict = dict(zip(col_name, ["blue", "green", "red"]))
+
+    if fig:
+        # Proportional chart configurations
+        pConfig = PropConfig(dataset, title, title_loc, labels, label_loc, col_name, description)
+
+        for index, row in dataset.iterrows():
+            ax = fig.add_subplot(prop.max_rows, cols, index + 1)
+
+            row_vals = row[col_name].sort_values().index
+            iter_tot = 0
+            for i in range(len(row_vals)):
+                row[row_vals[i]] = row[row_vals[i]] - iter_tot
+                iter_tot += row[row_vals[i]]
+            # print(row)
+
+            if pConfig.title is not None:
+                ax.text(pConfig.title_layout[0],
+                        pConfig.title_layout[1]+0.2,
+                        row[title],
+                        fontweight="bold",
+                        ha=pConfig.title_layout[2],
+                        c="#000")
+
+            if pConfig.description is not None:
+                max_char_per_row = 15
+                temp_description_layout = pConfig.description_layout
+                out_desc_list = [(row[description][i:i + max_char_per_row]) for i in
+                                 range(0, len(row[description]), max_char_per_row)]
+                for i in out_desc_list:
+                    ax.text(temp_description_layout[0],
+                            temp_description_layout[1]+0.2,
+                            i,
+                            fontweight="normal",
+                            ha=pConfig.description_layout[2],
+                            c="#000")
+                    temp_description_layout = [temp_description_layout[0],
+                                               temp_description_layout[1] - 0.1,
+                                               temp_description_layout[2]]
+
+            if isinstance(col_name, list):
+                if len(col_name) > 3:
+                    warnings.warn("Warning: Using more than three columns for proportional charts is not recommended "
+                                  "due to potential overcrowding. To ensure clarity and readability, we will only "
+                                  "display three columns. If you require specific columns, please update the "
+                                  "'col_name' attribute with three specific column names.")
+
+                counter = 0
+                iterator = 0
+                iterator_flag = True
+
+                # Plot each square in the grid
+                for i in range(num_squares):
+                    for j in range(num_squares):
+                        counter += 1
+                        # Calculate the coordinates of the square's corners
+                        x1 = j * (square_size + space_size)
+                        y1 = i * (square_size + space_size)
+
+                        if iterator_flag:
+                            col = row_vals[iterator]
+                            print("row_val: ", col, len(col_name))
+                            row[col] -= 0.01
+                            if row[col] <= 0:
+                                print("change")
+                                iterator += 1
+                                if iterator == len(col_name):
+                                    iterator_flag = False
+
+                        if iterator_flag:
+                            # Plot the square
+                            square = plt.Rectangle((x1, y1), square_size, square_size, linewidth=1, edgecolor=c_dict[col],
+                                                   facecolor=matplotlib.colors.to_hex(c_dict[col]) + "4D")
+                        else:
+                            # Plot the square
+                            square = plt.Rectangle((x1, y1), square_size, square_size, linewidth=1,
+                                                   edgecolor=matplotlib.colors.to_hex('black') + "4D",
+                                                   facecolor='white')
+                        ax.add_patch(square)
+
+            set_axis(ax, 0, num_squares * (square_size + space_size))
+            set_fig(ax)
         if prop.max_rows > 1:
             fig.tight_layout()
         plt.show();
