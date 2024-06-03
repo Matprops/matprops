@@ -1,8 +1,8 @@
-def set_axis(ax):
+def set_axis(ax, x_lim=0, y_lim=1):
     set_fig(ax)
     hide_spines(ax)
     hide_ticks(ax)
-    limits(ax)
+    limits(ax, x_lim, y_lim)
 
 
 def hide_spines(ax):
