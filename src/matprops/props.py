@@ -131,7 +131,6 @@ def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
 
 def GridProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None, title_loc="tl", bgcolor="#707070",
              description=None):
-    # Define Grid
     num_squares = 10
 
     square_size = 0.1
