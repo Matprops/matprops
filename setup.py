@@ -23,7 +23,8 @@ setup(
     install_requires=[
         "numpy >= 1.22.0",
         "pandas >= 1.3.5",
-        "matplotlib >= 3.5.1"
+        "matplotlib >= 3.5.1",
+        "matprops-base >= 1.0.0"
     ],
     extras_require={
         "dev": [
