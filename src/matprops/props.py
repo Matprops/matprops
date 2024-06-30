@@ -124,7 +124,7 @@ def AreaProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
 
         if prop.max_rows > 1:
             fig.tight_layout()
-        plt.show();
+        return plt
     else:
         raise Exception("Exception occurred")
 
@@ -228,6 +228,6 @@ def GridProp(dataset, col_name, cols=8, labels=True, label_loc="inc", title=None
             set_fig(ax)
         if prop.max_rows > 1:
             fig.tight_layout()
-        plt.show();
+        return plt
     else:
         raise Exception("Exception occurred")
